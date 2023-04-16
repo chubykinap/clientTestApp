@@ -14,13 +14,26 @@
    <string>Приложение клиента</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTextEdit" name="textIpAddress">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string>IP адресс сервера</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QTextEdit" name="textIpAddress">
+         <widget class="QTextEdit" name="textPort">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -28,45 +41,32 @@
            </size>
           </property>
           <property name="placeholderText">
-           <string>IP адресс сервера</string>
+           <string>Порт сервера</string>
           </property>
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QTextEdit" name="textPort">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>30</height>
-             </size>
-            </property>
-            <property name="placeholderText">
-             <string>Порт сервера</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="buttonConnect">
-            <property name="text">
-             <string>Старт</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         <widget class="QPushButton" name="buttonConnect">
+          <property name="text">
+           <string>Старт</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QTextEdit" name="textMessage">
-          <property name="placeholderText">
-           <string>Сообщение серверу</string>
-          </property>
-         </widget>
-        </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QTextEdit" name="textMessage">
+        <property name="placeholderText">
+         <string>Сообщение серверу</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="buttonSend">
           <property name="text">
@@ -74,16 +74,23 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="buttonPicture">
+          <property name="text">
+           <string>Отправить изображение</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QTextEdit" name="textInfo">
-        <property name="placeholderText">
-         <string>Сообщение от сервера</string>
-        </property>
-       </widget>
-      </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="textInfo">
+      <property name="placeholderText">
+       <string>Сообщение от сервера</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
