@@ -7,8 +7,7 @@ MainWindow::MainWindow(QWidget* parent)
     , socket(this)
 {
     ui->setupUi(this);
-    ui->textIpAddress->setText("127.0.1.1");
-    ui->textPort->setText("8080");
+
     ui->textInfo->setReadOnly(true);
     ui->buttonSend->setEnabled(false);
     ui->buttonPicture->setEnabled(false);
@@ -68,13 +67,20 @@ void MainWindow::readData()
 
 void MainWindow::on_buttonSend_clicked()
 {
-    // socket.write(ui->textMessage->toPlainText().toUtf8());
+    if (!checkConnection())
+        return;
+
+    if (ui->textMessage->toPlainText() == "") {
+        return;
+    }
     sendData("message", ui->textMessage->toPlainText().toUtf8());
     ui->textMessage->setText("");
 }
 
 void MainWindow::on_buttonPicture_clicked()
 {
+    if (!checkConnection())
+        return;
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Select image to send"),
         "home/",
@@ -85,9 +91,8 @@ void MainWindow::on_buttonPicture_clicked()
     } else {
         QFile image(fileName);
         if (image.exists() && image.open(QIODevice::ReadOnly)) {
-            // QByteArray data = image.readAll();
-            // socket.write(data);
             sendData("image", image.readAll(), fileName);
+            ui->textInfo->append("Sent file " + fileName.split("/").last());
         } else {
             QMessageBox::warning(this, "Error opening file",
                 "Could not open the selected file.");
@@ -98,26 +103,34 @@ void MainWindow::on_buttonPicture_clicked()
 
 void MainWindow::sendData(QString type, QByteArray data, QString filename)
 {
-    QDataStream stream(&socket);
     QByteArray header;
-    stream.setVersion(QDataStream::Qt_5_9);
     if (type == "message") {
         header.prepend(QString("type:message,filesize:%1").arg(data.size()).toUtf8());
     } else {
         header.prepend(QString("type:image,filesize:%1,file:%2")
                            .arg(data.size())
-                           .arg(filename)
+                           .arg(filename.split("/").last())
                            .toUtf8());
     }
 
     header.resize(128);
     QByteArray message = data.prepend(header);
-
-    stream << message;
+    socket.write(message);
 }
 
 void MainWindow::clearConnection()
 {
     disconnect(&socket, &QTcpSocket::readyRead, this, &MainWindow::readData);
     socket.close();
+}
+
+bool MainWindow::checkConnection()
+{
+    if (!socket.waitForConnected(500)) {
+        QMessageBox::warning(this, "Error", "Lost connection to server.");
+        ui->buttonSend->setEnabled(false);
+        ui->buttonPicture->setEnabled(false);
+        return false;
+    }
+    return true;
 }

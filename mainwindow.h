@@ -28,6 +28,7 @@ private slots:
     void clearConnection();
     void sendData(QString type, QByteArray data, QString fileName = nullptr);
     void on_buttonPicture_clicked();
+    bool checkConnection();
 
 private:
     Ui::MainWindow* ui;
